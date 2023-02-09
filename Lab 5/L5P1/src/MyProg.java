@@ -8,18 +8,18 @@ public class MyProg
 
         BufferedReader br = new BufferedReader(new FileReader(file));
 
-        String str = br.readLine();
-        String[] tokens = new String[0];
+        String str;
+        String[] tokens;
+        String[] equiv = new String[0];
 
         while ((str = br.readLine()) != null)
         {
-            tokens = str.split(",|;");
-        }
+            tokens = str.replace(",", "").split("[;]");
 
-        for (int i = 0; i < tokens.length; i++)
-        {
-            System.out.println(tokens[i]);
+            for (String s : tokens)
+            {
+                System.out.println(s.trim());
+            }
         }
     }
-
 }
