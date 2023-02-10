@@ -13,63 +13,63 @@ import java.util.Random;
 
 public class MyProg
 {
+    public static int region, high, low, guess, sum;
     public static void main(String[] args) throws Exception
     {
         File file = new File("src/Eq.txt");
+        File output = new File("src/test.txt");
 
         BufferedReader br = new BufferedReader(new FileReader(file));
+        BufferedWriter buffR = new BufferedWriter(new FileWriter(output));
 
         String str = "";
-
+        Random rand = new Random(System.currentTimeMillis());
+        sum = 0;
+        guess = rand.nextInt(30)+1;
 
         while ((str = br.readLine()) != null)
         {
-
             String[] equiv = str.split("\n");
-            Random rand = new Random();
-
-            FileWriter fw = new FileWriter("src/test.txt");
-
-            for (int i = 0; i < 100; i ++)
-            {
-                int sum = 0;
-
-                for (int j = 0; j < equiv.length; j++)
-                {
-                    String[] tokens = equiv[j].replace(" ", "").split(";");
-                    int index = rand.nextInt(tokens.length);
-
-                    String[] vals = tokens[index].replace(" ", "").split(",");
-
-                    int lowVal = Integer.parseInt(vals[0]);
-                    int highVal = Integer.parseInt(vals[1]);
-
-                    int val = rand.nextInt((highVal - lowVal) + 1) + lowVal;
-                    sum += check(val, tokens[j]);
-
-                    System.out.println(sum + "\n");
+            for(String z : equiv){
+                String[] line = z.replace(" ", "").split("[;,]");
+                int[] test = new int[line.length];
+                for(int i = 0; i < line.length; i++){
+                    test[i] = Integer.parseInt(line[i]);
                 }
+                foo(test);
             }
         }
+        br.close();
+        buffR.close();
+
     }
 
-    private static int check(int val, String equiv)
+    private static int check(int val) // per line total
     {
-        String[] tokens = equiv.replace(" ", "").split(";");
-
-        for (int i = 0; i < tokens.length; i++)
-        {
-            String[] vals = tokens[i].replace(" ", "").split(",");
-
-            int lowVal = Integer.parseInt(vals[0]);
-            int highVal = Integer.parseInt(vals[1]);
-
-            if (val >= lowVal && val <= highVal)
+            if (val >= low && val <= high)
             {
-                return i + 1;
+                return region;
             }
-        }
 
-        return -1;
+           else
+            {
+                return 0;
+            }
+    }
+
+    private static int foo(int... args){ // line level
+        for(int i = 0; i < args.length; i+=2){
+            region = (i/2) + 1;
+            System.out.println("Region: " + ((i / 2) + 1));
+            low = args[i];
+            high = args[i+1];
+            sum += check(guess);
+            System.out.println("low: " + low);
+            System.out.println("high: " + high);
+            System.out.println("guess: " + guess);
+        }
+        System.out.println("sum: " + sum);
+
+        return sum;
     }
 }
