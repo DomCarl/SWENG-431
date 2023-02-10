@@ -16,32 +16,34 @@ public class MyProg
     public static int region, high, low, guess, sum;
     public static void main(String[] args) throws Exception
     {
-        File file = new File("src/Eq.txt");
-        File output = new File("src/test.txt");
-
-        BufferedReader br = new BufferedReader(new FileReader(file));
-        BufferedWriter buffR = new BufferedWriter(new FileWriter(output));
-
-        String str = "";
-        Random rand = new Random(System.currentTimeMillis());
-        sum = 0;
-        guess = rand.nextInt(30)+1;
-
-        while ((str = br.readLine()) != null)
-        {
-            String[] equiv = str.split("\n");
-            for(String z : equiv){
-                String[] line = z.replace(" ", "").split("[;,]");
-                int[] test = new int[line.length];
-                for(int i = 0; i < line.length; i++){
-                    test[i] = Integer.parseInt(line[i]);
-                }
-                foo(test);
-            }
-        }
-        br.close();
-        buffR.close();
-
+//        File file = new File("src/Eq.txt");
+//        File output = new File("src/test.txt");
+//
+//        BufferedReader br = new BufferedReader(new FileReader(file));
+//        BufferedWriter buffR = new BufferedWriter(new FileWriter(output));
+//
+//        String str = "";
+//        Random rand = new Random(System.currentTimeMillis());
+//        sum = 0;
+//        guess = rand.nextInt(30)+1;
+//
+//        while ((str = br.readLine()) != null)
+//        {
+//            String[] equiv = str.split("\n");
+//            for(String z : equiv){
+//                String[] line = z.replace(" ", "").split("[;,]");
+//                int[] test = new int[line.length];
+//                for(int i = 0; i < line.length; i++){
+//                    test[i] = Integer.parseInt(line[i]);
+//                }
+//                foo(test);
+//            }
+//        }
+//        br.close();
+//        buffR.close();
+        TestCaseGenerator tcg = new TestCaseGenerator();
+        tcg.readEquivalenceClasses("/Users/robbiemyers/Local Projects/SWENG-431/Lab 5/L5P1/src/Eq.txt");
+        tcg.generateTestCases("/Users/robbiemyers/Local Projects/SWENG-431/Lab 5/L5P1/src/test.txt");
     }
 
     private static int check(int val) // per line total
