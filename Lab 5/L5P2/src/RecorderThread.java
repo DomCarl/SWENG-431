@@ -1,6 +1,4 @@
 import gui.MyGUI;
-import javafx.util.Pair;
-
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
@@ -8,86 +6,35 @@ import java.util.ArrayList;
 public class RecorderThread extends Thread{
     private MyGUI gui;
     private ArrayList<AWTEvent> events = new ArrayList<>();
+    private ArrayList<Long> deltas = new ArrayList<>();
+    private boolean recording = false;
     public RecorderThread(MyGUI gui){this.gui = gui;}
     @Override
     public void run() {
 
-        gui.addMouseMotionListener(new MouseMotionListener() {
+        gui.getToolkit().addAWTEventListener(new AWTEventListener() {
             @Override
-            public void mouseDragged(MouseEvent e) {
+            public void eventDispatched(AWTEvent event) {
+                if(recording){
+                    events.add(event);
+                    deltas.add(System.currentTimeMillis());
+                }
             }
-
-            @Override
-            public void mouseMoved(MouseEvent e) {
-                System.out.println("Mouse Moved");
-                events.add(e);
-            }
-        });
-
-        gui.addMouseListener(new MouseListener() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                events.add(e);
-                System.out.println("Mouse Clicked");
-            }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-
-            }
-        });
-
-        gui.addKeyListener(new KeyListener() {
-            @Override
-            public void keyTyped(KeyEvent e) {
-                System.out.println("Key Pressed!");
-                events.add(e);
-            }
-
-            @Override
-            public void keyPressed(KeyEvent e) {
-
-            }
-
-            @Override
-            public void keyReleased(KeyEvent e) {
-
-            }
-        });
-
-        gui.getRootPane().addKeyListener(new KeyListener() {
-            @Override
-            public void keyTyped(KeyEvent e) {
-                System.out.println("Test");
-            }
-
-            @Override
-            public void keyPressed(KeyEvent e) {
-
-            }
-
-            @Override
-            public void keyReleased(KeyEvent e) {
-
-            }
-        });
+        }, AWTEvent.MOUSE_MOTION_EVENT_MASK | AWTEvent.MOUSE_EVENT_MASK | AWTEvent.KEY_EVENT_MASK);
 
         super.run();
     }
 
+    public void setRecording(boolean recording) {
+        this.recording = recording;
+    }
+
+    public ArrayList<AWTEvent> getEvents()
+    {
+        return this.events;
+    }
+
+    public ArrayList<Long> getDeltas() {
+        return deltas;
+    }
 }
