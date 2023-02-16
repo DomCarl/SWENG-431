@@ -2,9 +2,14 @@
  * @author Robert Myers
  * @author Dominick Carlucci
  * @author Stuart Walters
- * Runs an object testlet given a command-line argument. For example RectangleTestlet or BoxTestlet
+ * Implements TestletIF. Runs a series of boundary value analysis between 1 and 10 for the getArea method
  */
 public class RectangleTestlet implements TestletIF {
+
+    /**
+     * Overriden function from TestletIF
+     * @return True if all tests pass, false if not
+     */
     @Override
     public boolean runTest() {
         TestHarness harness = new TestHarness();
