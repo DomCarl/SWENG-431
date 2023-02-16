@@ -1,6 +1,6 @@
 /**
  * @author Stuart Walters
- * @author Robert Myer
+ * @author Robert Myers
  * @author Dominick Carlucci
  *
  * Lab 5 Part 1
